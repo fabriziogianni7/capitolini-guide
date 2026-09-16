@@ -1,5 +1,5 @@
 /* Service worker: precache dell'app per uso offline al museo */
-const CACHE = "capitolini-guide-v1";
+const CACHE = "capitolini-guide-v2";
 const ASSETS = [
   "./", "./index.html", "./styles.css", "./data.js", "./map.js", "./app.js", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png",

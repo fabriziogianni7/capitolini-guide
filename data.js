@@ -590,6 +590,17 @@ const I18N = {
     install: "Aggiungi alla schermata Home per usarla come app, anche offline.",
     reset: "Azzera progressi",
     reset_confirm: "Vuoi davvero azzerare le opere viste e il punteggio?",
+    voice_title: "Voce dell'audioguida",
+    voice_intro: "L'audio usa le voci installate sul tuo telefono. Scegli quella che preferisci per ogni lingua (★ = voce di qualità superiore).",
+    voice_auto: "Automatica",
+    voice_test: "Prova",
+    voice_none: "Nessuna voce disponibile per questa lingua",
+    voice_tip_title: "Vuoi una voce più naturale?",
+    voice_tip_ios: "Su iPhone vai in Impostazioni → Accessibilità → Contenuto letto → Voci → Italiano → Alice (o Federica) e scarica la versione «Avanzata» o «Premium». Per l'inglese: English (UK) → Daniel, oppure English (US) → Ava o Zoe. Poi torna qui e selezionala.",
+    voice_tip_android: "Su Android vai in Impostazioni → Sistema → Lingue e immissione → Sintesi vocale → Motore Google → Installa dati vocali, scarica Italiano e Inglese in alta qualità. Poi torna qui e seleziona la voce «Google».",
+    voice_tip_desktop: "Su Mac: Impostazioni di Sistema → Accessibilità → Contenuto letto → Voce di sistema → Gestisci voci, scarica una voce «Premium» italiana e una inglese. Su Windows: Impostazioni → Ora e lingua → Lingua → aggiungi la voce.",
+    voice_sample_it: "Benvenuti ai Musei Capitolini, i musei pubblici più antichi del mondo. Davanti a voi, la Lupa Capitolina.",
+    voice_sample_en: "Welcome to the Capitoline Museums, the oldest public museums in the world. Before you stands the Capitoline Wolf.",
     lang_switch: "EN"
   },
   en: {
@@ -669,6 +680,17 @@ const I18N = {
     install: "Add to your Home Screen to use it as an app, even offline.",
     reset: "Reset progress",
     reset_confirm: "Do you really want to reset seen works and score?",
+    voice_title: "Audio guide voice",
+    voice_intro: "Audio uses the voices installed on your phone. Pick the one you prefer for each language (★ = higher quality voice).",
+    voice_auto: "Automatic",
+    voice_test: "Test",
+    voice_none: "No voice available for this language",
+    voice_tip_title: "Want a more natural voice?",
+    voice_tip_ios: "On iPhone go to Settings → Accessibility → Spoken Content → Voices → English → Daniel (UK) or Ava / Zoe (US) and download the “Enhanced” or “Premium” version. For Italian: Italian → Alice or Federica. Then come back here and select it.",
+    voice_tip_android: "On Android go to Settings → System → Languages & input → Text-to-speech → Google engine → Install voice data, and download high-quality English and Italian. Then come back here and select the “Google” voice.",
+    voice_tip_desktop: "On Mac: System Settings → Accessibility → Spoken Content → System Voice → Manage Voices, download a “Premium” English and Italian voice. On Windows: Settings → Time & language → Language → add the voice.",
+    voice_sample_it: "Benvenuti ai Musei Capitolini, i musei pubblici più antichi del mondo. Davanti a voi, la Lupa Capitolina.",
+    voice_sample_en: "Welcome to the Capitoline Museums, the oldest public museums in the world. Before you stands the Capitoline Wolf.",
     lang_switch: "IT"
   }
 };

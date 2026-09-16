@@ -220,3 +220,11 @@ img { max-width: 100%; display: block; }
   .work-item { grid-template-columns: 120px 1fr; }
   .work-item .thumb img { width: 120px; }
 }
+
+/* Voice picker */
+.voice-row { display: grid; grid-template-columns: 96px 1fr; gap: 8px; align-items: center; margin-top: 8px; }
+.voice-row label { font-weight: 600; font-size: 14px; }
+.voice-row select {
+  width: 100%; min-height: 40px; border: 1.5px solid var(--line); border-radius: 10px; background: var(--bg); color: var(--ink);
+  padding: 6px 10px; font: inherit; font-size: 14px;
+}

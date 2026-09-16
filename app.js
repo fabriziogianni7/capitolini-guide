@@ -29,12 +29,32 @@
   const Speaker = {
     supported: "speechSynthesis" in window && "SpeechSynthesisUtterance" in window,
     queue: [], playing: false, paused: false, onChange: null,
-    voiceFor(l) {
-      const voices = speechSynthesis.getVoices();
+    /* Voci preferite per nome (iOS/macOS, Android, Windows). Prima = migliore. */
+    PREFER: {
+      it: ["Alice", "Federica", "Emma", "Paola", "Luca", "Google italiano", "Microsoft Elsa", "Microsoft Isabella", "Microsoft Diego"],
+      en: ["Ava", "Zoe", "Samantha", "Daniel", "Karen", "Moira", "Serena", "Google UK English Female", "Google US English", "Microsoft Sonia", "Microsoft Libby", "Microsoft Aria"]
+    },
+    voices(l) {
       const want = l === "it" ? "it" : "en";
-      const pref = voices.filter((v) => v.lang && v.lang.toLowerCase().startsWith(want));
-      // Preferisci voci "premium"/locali se presenti
-      return pref.find((v) => /premium|enhanced|natural|siri|google/i.test(v.name)) || pref.find((v) => v.localService) || pref[0] || null;
+      return speechSynthesis.getVoices().filter((v) => v.lang && v.lang.toLowerCase().replace("_", "-").startsWith(want));
+    },
+    score(v, l) {
+      const hay = (v.name + " " + v.voiceURI).toLowerCase();
+      let sc = 0;
+      if (/premium/.test(hay)) sc += 40;
+      else if (/enhanced|natural|neural|siri/.test(hay)) sc += 25;
+      const idx = this.PREFER[l].findIndex((n) => v.name.toLowerCase().startsWith(n.toLowerCase()));
+      if (idx >= 0) sc += 20 - idx;
+      if (v.localService) sc += 3;
+      if (/compact|eloquence|novelty|fred|zarvox|bells|trinoids|whisper|bad news|good news|cellos|organ|bubbles|bollicine|junior|ralph|kathy|albert|bahh|boing|jester|wobble|\beddy\b|\bflo\b|grandma|grandpa|\breed\b|rocko|sandy|shelley|nonna|nonno/.test(hay)) sc -= 30;
+      return sc;
+    },
+    voiceFor(l) {
+      const list = this.voices(l);
+      if (!list.length) return null;
+      const chosen = LS.get("voice_" + l, "");
+      if (chosen) { const v = list.find((x) => x.voiceURI === chosen || x.name === chosen); if (v) return v; }
+      return list.slice().sort((a, b) => this.score(b, l) - this.score(a, l))[0];
     },
     speak(text, l) {
       if (!this.supported) return;
@@ -64,7 +84,10 @@
     stop() { if (!this.supported) return; this.queue = []; speechSynthesis.cancel(); this.playing = false; this.paused = false; this._emit(); },
     _emit() { if (this.onChange) this.onChange(this); }
   };
-  if (Speaker.supported) { speechSynthesis.onvoiceschanged = () => {}; speechSynthesis.getVoices(); }
+  if (Speaker.supported) {
+    speechSynthesis.getVoices();
+    speechSynthesis.addEventListener("voiceschanged", () => { if (typeof window.__onVoices === "function") window.__onVoices(); });
+  }
 
   /* ---------- Router ---------- */
   function parseHash() {
@@ -210,9 +233,12 @@
       Speaker.onChange = (s) => {
         bp.hidden = s.playing; bpa.hidden = !s.playing; bs.hidden = !s.playing;
         bpa.textContent = s.paused ? "▶ " + t("resume") : "⏸ " + t("pause");
-        st.innerHTML = s.playing ? `<span class="playing">${s.paused ? "⏸" : "🔊"} …</span>` : "";
+        const v = Speaker.voiceFor(lang);
+        st.innerHTML = s.playing ? `<span class="playing">${s.paused ? "⏸" : "🔊"} ${v ? esc(v.name) : ""}</span>` : (v ? `🗣 ${esc(v.name)}` : "");
         lt.classList.toggle("reading", s.playing);
       };
+      Speaker.onChange(Speaker);
+      window.__onVoices = () => Speaker.onChange(Speaker);
     }
   }
   function shortTitle(w) { const s = w.title[lang]; return s.length > 22 ? s.slice(0, 20) + "…" : s; }
@@ -386,6 +412,10 @@
 
   /* ---------- Info ---------- */
   function renderInfo() {
+    const ua = navigator.userAgent;
+    const isIOS = /iPhone|iPad|iPod/.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    const isAndroid = /Android/.test(ua);
+    const tip = isIOS ? t("voice_tip_ios") : isAndroid ? t("voice_tip_android") : t("voice_tip_desktop");
     view.innerHTML = `
       <section class="card info">
         <h1 style="font-size:24px">${t("info_title")}</h1>
@@ -395,14 +425,53 @@
           <dt>🚶 ${t("info_route")}</dt><dd>${t("info_route_v")}</dd>
           <dt>💡 ${t("info_tips")}</dt><dd>${t("info_tips_v")}</dd>
           <dt>🎫 ${t("info_tickets")}</dt><dd><a href="https://www.museicapitolini.org/${lang}" target="_blank" rel="noopener">museicapitolini.org ↗</a></dd>
+        </dl>
+      </section>
+
+      <section class="card info">
+        <h2 style="font-size:20px">🗣 ${t("voice_title")}</h2>
+        <p class="muted" style="margin:0 0 10px;font-size:14px">${t("voice_intro")}</p>
+        ${Speaker.supported ? `
+          <div class="voice-row"><label for="voiceIt">🇮🇹 Italiano</label><select id="voiceIt" data-l="it"></select></div>
+          <div class="voice-row"><label for="voiceEn">🇬🇧 English</label><select id="voiceEn" data-l="en"></select></div>
+          <div class="row" style="margin-top:10px">
+            <button class="btn small secondary" id="testIt" type="button">▶ ${t("voice_test")} IT</button>
+            <button class="btn small secondary" id="testEn" type="button">▶ ${t("voice_test")} EN</button>
+          </div>` : `<p class="muted">${t("no_tts")}</p>`}
+        <div class="fact" style="margin-top:14px"><span class="ico">📱</span><div><b>${t("voice_tip_title")}</b><br>${tip}</div></div>
+      </section>
+
+      <section class="card info">
+        <dl>
           <dt>📱 PWA</dt><dd>${t("install")}</dd>
           <dt>🖼️ ${t("info_credits")}</dt><dd>${t("info_credits_v")} <a href="https://github.com/fabriziogianni7/capitolini-guide/blob/main/CREDITS.md" target="_blank" rel="noopener">CREDITS.md ↗</a></dd>
         </dl>
         <div style="margin-top:18px"><button class="btn secondary small" id="btnReset" type="button">${t("reset")}</button></div>
       </section>`;
+
     document.getElementById("btnReset").addEventListener("click", () => {
       if (confirm(t("reset_confirm"))) { seen.clear(); saveSeen(); LS.set("best", null); quiz = null; toast("✓"); }
     });
+
+    if (!Speaker.supported) return;
+    const fill = () => {
+      view.querySelectorAll("select[data-l]").forEach((sel) => {
+        const l = sel.dataset.l;
+        const list = Speaker.voices(l).slice().sort((a, b) => Speaker.score(b, l) - Speaker.score(a, l));
+        const auto = Speaker.voiceFor(l);
+        const chosen = LS.get("voice_" + l, "");
+        sel.innerHTML = `<option value="">${t("voice_auto")}${auto && !chosen ? " · " + esc(auto.name) : ""}</option>` +
+          (list.length ? list.map((v) => {
+            const q = /premium/i.test(v.name + v.voiceURI) ? " ★★" : /enhanced|natural|neural|siri/i.test(v.name + v.voiceURI) ? " ★" : "";
+            return `<option value="${esc(v.voiceURI)}" ${chosen === v.voiceURI || chosen === v.name ? "selected" : ""}>${esc(v.name)}${q} (${esc(v.lang)})</option>`;
+          }).join("") : `<option disabled>${t("voice_none")}</option>`);
+      });
+    };
+    fill();
+    window.__onVoices = fill;
+    view.querySelectorAll("select[data-l]").forEach((sel) => sel.addEventListener("change", () => { LS.set("voice_" + sel.dataset.l, sel.value); fill(); }));
+    document.getElementById("testIt").addEventListener("click", () => Speaker.speak(t("voice_sample_it"), "it"));
+    document.getElementById("testEn").addEventListener("click", () => Speaker.speak(t("voice_sample_en"), "en"));
   }
 
   /* ---------- Avvio ---------- */
