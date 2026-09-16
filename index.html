@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Musei Capitolini · Guida alla visita</title>
+  <meta name="description" content="Guida mobile ai 15 capolavori dei Musei Capitolini di Roma: testi, audio, mappa e quiz. IT / EN.">
+  <meta name="theme-color" content="#8c2f1f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Capitolini">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <a href="#/" class="brand">
+      <span class="brand-mark">🏛️</span>
+      <span class="brand-text">
+        <span class="brand-title" data-i18n="appName"></span>
+        <span class="brand-sub" data-i18n="subtitle"></span>
+      </span>
+    </a>
+    <button id="langBtn" class="lang-btn" type="button" aria-label="Change language"></button>
+  </header>
+
+  <main id="view" class="view"></main>
+
+  <nav class="tabbar" aria-label="Main">
+    <a href="#/" data-tab="route"><span class="ico">🗺️</span><span data-i18n="nav_route"></span></a>
+    <a href="#/mappa" data-tab="map"><span class="ico">📍</span><span data-i18n="nav_map"></span></a>
+    <a href="#/quiz" data-tab="quiz"><span class="ico">🏆</span><span data-i18n="nav_quiz"></span></a>
+    <a href="#/info" data-tab="info"><span class="ico">ℹ️</span><span data-i18n="nav_info"></span></a>
+  </nav>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="data.js"></script>
+  <script src="map.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
