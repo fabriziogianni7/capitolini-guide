@@ -16,7 +16,7 @@ Tutte le foto provengono da [Wikimedia Commons](https://commons.wikimedia.org/) 
 | img/buona-ventura.jpg | [Caravaggio-The Fortune Teller-Musei Capitolini.jpg](https://commons.wikimedia.org/wiki/File:Caravaggio-The_Fortune_Teller-Musei_Capitolini.jpg) | Yair Haklai | CC BY-SA 3.0 |
 | img/san-giovanni.jpg | [Caravaggio-Saint John the Baptist-Musei Capitolini.jpg](https://commons.wikimedia.org/wiki/File:Caravaggio-Saint_John_the_Baptist-Musei_Capitolini.jpg) | Yair Haklai | CC BY-SA 3.0 |
 | img/marforio.jpg | [0 Marforio - Cortile del Palazzo Nuovo - Musei Capitolini (MC0001).jpg](https://commons.wikimedia.org/wiki/File:0_Marforio_-_Cortile_del_Palazzo_Nuovo_-_Musei_Capitolini_(MC0001).jpg) | Jean-Pol Grandmont | CC BY 3.0 |
-| img/galata.jpg | [Dying Gaul Musei Capitolini MC747.jpg](https://commons.wikimedia.org/wiki/File:Dying_Gaul_Musei_Capitolini_MC747.jpg) | Jastrow | Public domain |
+| img/galata.jpg | [0 Galata Morente - Musei Capitolini (1).jpg](https://commons.wikimedia.org/wiki/File:0_Galata_Morente_-_Musei_Capitolini_(1).jpg) | Jean-Pol Grandmont | CC BY-SA 3.0 |
 | img/venere.jpg | [Capitoline Venus Musei Capitolini MC0409.jpg](https://commons.wikimedia.org/wiki/File:Capitoline_Venus_Musei_Capitolini_MC0409.jpg) | Marie-Lan Nguyen | Public domain |
 | img/colombe.jpg | [Mosaic doves Musei Capitolini MC402.jpg](https://commons.wikimedia.org/wiki/File:Mosaic_doves_Musei_Capitolini_MC402.jpg) | Jastrow | Public domain |
 
